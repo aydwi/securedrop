@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from PIL import Image
+
 import os
 
 from flask import (Blueprint, render_template, request, url_for, redirect, g,
@@ -34,6 +36,11 @@ def make_blueprint(config):
             static_filepath = os.path.join(config.SECUREDROP_ROOT,
                                            "static/i/logo.png")
             f.save(static_filepath)
+
+            with Image.open(static_filepath) as im:
+                im.thumbnail((500, 500), resample = 3)
+                im.save(static_filepath, "PNG")
+
             flash(gettext("Image updated."), "logo-success")
             return redirect(url_for("admin.manage_config"))
         else:

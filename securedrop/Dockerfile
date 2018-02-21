@@ -8,7 +8,7 @@ ENV USER_ID ${USER_ID:-0}
 RUN apt-get update && \
     apt-get install -y python-pip libpython2.7-dev libssl-dev secure-delete \
                        gnupg2 ruby redis-server firefox git xvfb haveged curl \
-                       gettext paxctl x11vnc enchant
+                       gettext paxctl x11vnc enchant libjpeg-dev
 
 RUN gem install sass -v 3.4.23
 

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from cStringIO import StringIO
+from io import BytesIO
 import os
 import random
 import unittest
 import zipfile
+import base64
 
 from flask import url_for, escape, session, current_app
 from flask_testing import TestCase
@@ -744,9 +746,9 @@ class TestJournalistApp(TestCase):
 
         try:
             self._login_admin()
-
+            # Create 1px * 1px 'white' PNG file from its base64 string
             form = journalist_app.forms.LogoForm(
-                logo=(StringIO('imagedata'), 'test.png')
+                logo=(BytesIO(base64.decodestring('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=')), 'test.png')
             )
             self.client.post(url_for('admin.manage_config'),
                              data=form.data,
