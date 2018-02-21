@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
+import StringIO
+from PIL import Image
 
 from flask import (Blueprint, render_template, request, url_for, redirect, g,
                    current_app, flash, abort)
@@ -33,7 +35,22 @@ def make_blueprint(config):
             f = form.logo.data
             static_filepath = os.path.join(config.SECUREDROP_ROOT,
                                            "static/i/logo.png")
-            f.save(static_filepath)
+            
+            with Image.open(f) as im:
+                im.thumbnail((500, 500), resample = 3)
+                im.save(static_filepath, "PNG")
+
+            """
+            #Replace the above 3 lines with this code segment to read the image as string
+            buffer = StringIO.StringIO()
+            buffer.write(f.read())
+            buffer.seek(0)
+            
+            with Image.open(buffer) as im:
+                im.thumbnail((500, 500), resample = 3)
+                im.save(static_filepath, "PNG")
+            """
+
             flash(gettext("Image updated."), "logo-success")
             return redirect(url_for("admin.manage_config"))
         else:
