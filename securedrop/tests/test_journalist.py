@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+
 from cStringIO import StringIO
 from io import BytesIO
+
 import os
 import random
 import unittest
