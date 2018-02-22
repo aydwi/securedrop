@@ -38,7 +38,7 @@ def make_blueprint(config):
             f.save(static_filepath)
 
             with Image.open(static_filepath) as im:
-                im.thumbnail((500, 500), resample = 3)
+                im.thumbnail((500, 500), resample=3)
                 im.save(static_filepath, "PNG")
 
             flash(gettext("Image updated."), "logo-success")

@@ -750,7 +750,9 @@ class TestJournalistApp(TestCase):
             self._login_admin()
             # Create 1px * 1px 'white' PNG file from its base64 string
             form = journalist_app.forms.LogoForm(
-                logo=(BytesIO(base64.decodestring('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=')), 'test.png')
+                logo=(BytesIO(base64.decodestring
+                ("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQ"
+                "VR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=")), 'test.png')
             )
             self.client.post(url_for('admin.manage_config'),
                              data=form.data,
