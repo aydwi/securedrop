@@ -35,14 +35,30 @@ def make_blueprint(config):
             f = form.logo.data
             static_filepath = os.path.join(config.SECUREDROP_ROOT,
                                            "static/i/logo.png")
+            temp_static_filepath = os.path.join(config.SECUREDROP_ROOT,
+                                                "static/i/temp_logo.png")
+            with open(static_filepath) as img_file:
+                current_img = img_file.read()
             f.save(static_filepath)
 
-            with Image.open(static_filepath) as im:
-                im.thumbnail((500, 500), resample=3)
-                im.save(static_filepath, "PNG")
+            try:
+                with Image.open(static_filepath) as im:
+                    imcopy = im.copy()
+                    imcopy.thumbnail((500, 450), resample=3)
+                    imcopy.save(temp_static_filepath, "PNG")
+                if os.path.exists(static_filepath):
+                    os.rename(temp_static_filepath, static_filepath)
+                flash(gettext("Image updated."), "logo-success")
 
-            flash(gettext("Image updated."), "logo-success")
-            return redirect(url_for("admin.manage_config"))
+            except IOError:
+                with open(static_filepath, 'w') as img_file:
+                    img_file.write(current_img)
+                flash("Unable to process the image file."
+                      " Try another one.", "logo-error")
+
+            finally:
+                return redirect(url_for("admin.manage_config"))
+
         else:
             for field, errors in form.errors.items():
                 for error in errors:

@@ -751,8 +751,8 @@ class TestJournalistApp(TestCase):
             # Create 1px * 1px 'white' PNG file from its base64 string
             form = journalist_app.forms.LogoForm(
                 logo=(BytesIO(base64.decodestring
-                ("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQ"
-                "VR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=")), 'test.png')
+                      ("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQ"
+                       "VR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=")), 'test.png')
             )
             self.client.post(url_for('admin.manage_config'),
                              data=form.data,
@@ -773,8 +773,10 @@ class TestJournalistApp(TestCase):
         resp = self.client.post(url_for('admin.manage_config'),
                                 data=form.data,
                                 follow_redirects=True)
-        self.assertMessageFlashed("Upload images only.", "logo-error")
-        self.assertIn('Upload images only.', resp.data)
+        self.assertMessageFlashed("You can only upload JPG/JPEG"
+                                  " or PNG image files.", "logo-error")
+        self.assertIn("You can only upload JPG/JPEG"
+                      " or PNG image files.", resp.data)
 
     def test_logo_upload_with_empty_input_field_fails(self):
         self._login_admin()
