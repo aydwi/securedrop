@@ -50,7 +50,7 @@ def make_blueprint(config):
                     os.rename(temp_static_filepath, static_filepath)
                 flash(gettext("Image updated."), "logo-success")
 
-            except IOError:
+            except Exception:
                 with open(static_filepath, 'w') as img_file:
                     img_file.write(current_img)
                 flash("Unable to process the image file."
