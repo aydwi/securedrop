@@ -35,11 +35,12 @@ def make_blueprint(config):
             f = form.logo.data
             static_filepath = os.path.join(config.SECUREDROP_ROOT,
                                            "static/i/logo.png")
+            custom_static_filepath = os.path.join(config.SECUREDROP_ROOT,
+                                           "static/i/custom_logo.png")
             try:
                 with Image.open(f) as im:
-                    imcopy = im.copy()
-                    imcopy.thumbnail((500, 450), resample=3)
-                    imcopy.save(static_filepath, "PNG")
+                    im.thumbnail((500, 450), resample=3)
+                    im.save(custom_static_filepath, "PNG")
                 flash(gettext("Image updated."), "logo-success")
 
             except Exception:

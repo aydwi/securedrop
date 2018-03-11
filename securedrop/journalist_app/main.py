@@ -12,6 +12,7 @@ from journalist_app.forms import ReplyForm
 from journalist_app.utils import (validate_user, bulk_delete, download,
                                   confirm_bulk_delete, get_source)
 
+import os
 
 def make_blueprint(config):
     view = Blueprint('main', __name__)
@@ -42,6 +43,13 @@ def make_blueprint(config):
         session.pop('uid', None)
         session.pop('expires', None)
         return redirect(url_for('main.index'))
+
+    @view.route('/config')
+    def sd_logo():
+        if os.path.exists(os.path.join(current_app.static_folder, 'i', 'custom_logo.png')):
+            return redirect(url_for('static', filename='i/custom_logo.png'))
+        else:
+            return redirect(url_for('static', filename='i/logo.png'))
 
     @view.route('/')
     def index():
